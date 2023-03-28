@@ -1,0 +1,11 @@
+version: '3'
+services:
+  tp-achat-frontend:
+    build: path/to/your/angular/project
+    ports:
+      - "4200:4200"
+    environment:
+      BACKEND_URL: http://tp-achat-app:8089/api
+    depends_on:
+      - tp-achat-app
+    command: npm start
