@@ -1,7 +1,7 @@
 version: '3'
 services:
   tp-achat-frontend:
-    build: path/to/your/angular/project
+    build: .
     ports:
       - "4200:4200"
     environment:
