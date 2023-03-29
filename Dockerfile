@@ -9,7 +9,7 @@
 # COPY /dist/crudtuto-Front /usr/share/nginx/html
 
 # Utiliser l'image de base Node.js
-FROM node:14 as build
+FROM node:14
 
 # Définir le répertoire de travail
 WORKDIR /app
@@ -30,7 +30,7 @@ RUN npm run build --prod
 FROM nginx:alpine
 
 # Copier les fichiers de l'application dans le répertoire de travail de nginx
-COPY --from=build /dist/crudtuto-Front /usr/share/nginx/html/
+COPY /dist/crudtuto-Front /usr/share/nginx/html/
 
 # Exposer le port 4200 pour pouvoir accéder à l'application depuis l'extérieur
 EXPOSE 4200
