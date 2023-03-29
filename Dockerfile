@@ -14,12 +14,22 @@
 # FROM nginx:latest
 # COPY --from=0 /app/dist/crud-tuto-front /usr/share/nginx/html
 
-FROM node:10 as build-step
-RUN mkdir -p /app
+# FROM node:10 
+# RUN mkdir -p /app
+# WORKDIR /app
+# COPY package.json /app
+# RUN npm install --legacy-peer-deps
+# COPY . /app
+# RUN npm run build --prod
+# FROM nginx:1.17.1-alpine
+# COPY --from=0 /app/dist/crudtuto-Front /usr/share/nginx/html
+
+FROM node:10
 WORKDIR /app
-COPY package.json /app
+COPY package*.json ./
 RUN npm install --legacy-peer-deps
-COPY . /app
-RUN npm run build --prod
-FROM nginx:1.17.1-alpine
-COPY --from=build-step /app/dist/crudtuto-Front /usr/share/nginx/html
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=0 /app/dist/crudtuto-Front /usr/share/nginx/html
