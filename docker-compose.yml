@@ -1,7 +1,7 @@
 version: '3'
 services:
   tp-achat-frontend:
-    build: .
+    image: daoues/tp-achat-frontend
     ports:
       - "4200:4200"
     environment:
