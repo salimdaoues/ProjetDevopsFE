@@ -24,7 +24,7 @@
 # FROM nginx:1.17.1-alpine
 # COPY --from=0 /app/dist/crudtuto-Front /usr/share/nginx/html
 
-FROM node:10
+FROM node:14
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
