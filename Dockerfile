@@ -1,35 +1,39 @@
-# FROM node:latest AS build
+# FROM node:14
 # WORKDIR /app
-# COPY . .
-# RUN npm install
-# RUN npm run build --prod
-
-# FROM nginx:latest
-# COPY --from=build /app/dist/crud-tuto-front /usr/share/nginx/html
-# FROM node:latest
-# WORKDIR /app
-# COPY . .
+# COPY package*.json ./
 # RUN npm install --legacy-peer-deps
-# RUN npm run build --prod
-# FROM nginx:latest
-# COPY --from=0 /app/dist/crud-tuto-front /usr/share/nginx/html
+# COPY . .
+# RUN npm run build
 
-# FROM node:10 
-# RUN mkdir -p /app
-# WORKDIR /app
-# COPY package.json /app
-# RUN npm install --legacy-peer-deps
-# COPY . /app
-# RUN npm run build --prod
-# FROM nginx:1.17.1-alpine
-# COPY --from=0 /app/dist/crudtuto-Front /usr/share/nginx/html
+# FROM nginx:alpine
+# COPY /dist/crudtuto-Front /usr/share/nginx/html
 
-FROM node:14
+# Utiliser l'image de base Node.js
+FROM node:14-alpine as build
+
+# Définir le répertoire de travail
 WORKDIR /app
-COPY package*.json ./
-RUN npm install --legacy-peer-deps
-COPY . .
-RUN npm run build
 
-FROM nginx:alpine
-COPY /dist/crudtuto-Front /usr/share/nginx/html
+# Copier les fichiers nécessaires
+COPY package*.json ./
+COPY angular.json ./
+COPY tsconfig*.json ./
+COPY src/ ./src/
+
+# Installer les dépendances
+RUN npm install
+
+# Construire l'application
+RUN npm run build --prod
+
+# Créer une nouvelle image à partir de l'image nginx
+FROM nginx:1.21-alpine
+
+# Copier les fichiers de l'application dans le répertoire de travail de nginx
+COPY --from=build /dist/crudtuto-Front /usr/share/nginx/html/
+
+# Exposer le port 4200 pour pouvoir accéder à l'application depuis l'extérieur
+EXPOSE 4200
+
+# Démarrer nginx pour servir l'application
+CMD ["nginx", "-g", "daemon off;"]
