@@ -9,7 +9,7 @@
 # COPY /dist/crudtuto-Front /usr/share/nginx/html
 
 # Utiliser l'image de base Node.js
-FROM node:14-alpine as build
+FROM node:14 as build
 
 # Définir le répertoire de travail
 WORKDIR /app
@@ -27,7 +27,7 @@ RUN npm install
 RUN npm run build --prod
 
 # Créer une nouvelle image à partir de l'image nginx
-FROM nginx:1.21-alpine
+FROM nginx:alpine
 
 # Copier les fichiers de l'application dans le répertoire de travail de nginx
 COPY --from=build /dist/crudtuto-Front /usr/share/nginx/html/
