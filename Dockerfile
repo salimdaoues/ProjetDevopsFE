@@ -14,7 +14,7 @@
 # FROM nginx:latest
 # COPY --from=0 /app/dist/crud-tuto-front /usr/share/nginx/html
 
-FROM node:10-alpine as build-step
+FROM node:10 as build-step
 RUN mkdir -p /app
 WORKDIR /app
 COPY package.json /app
