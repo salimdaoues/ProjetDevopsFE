@@ -32,4 +32,4 @@ COPY . .
 RUN npm run build
 
 FROM nginx:alpine
-COPY /app/dist/* /usr/share/nginx/html
+COPY /dist/crudtuto-Front /usr/share/nginx/html
