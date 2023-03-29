@@ -6,6 +6,4 @@ services:
       - "4200:4200"
     environment:
       BACKEND_URL: http://tp-achat-app:8089/api
-    depends_on:
-      - tp-achat-app
     command: npm start
