@@ -37,6 +37,7 @@
 
 # # Démarrer nginx pour servir l'application
 # CMD ["nginx", "-g", "daemon off;"]
+
 # Use an official Node.js runtime as a parent image
 FROM node:14
 
@@ -53,7 +54,8 @@ RUN npm install
 EXPOSE 4200
 
 # Define environment variable
-ENV BACKEND_URL=http://tp-achat-app:8089/api
+# ENV BACKEND_URL=http://tp-achat-app:8089/api
+ENV BACKEND_URL=http://172.20.10.6:8089/SpringMVC
 
 # Run the command to start the app
 CMD ["npm", "start"]
