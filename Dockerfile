@@ -45,10 +45,17 @@ FROM node:14
 WORKDIR /app
 
 # Copy the current directory contents into the container at /app
-COPY . /app
+COPY package*.json ./
+COPY angular.json ./
+COPY tsconfig*.json ./
+COPY src/ ./src/
 
 # Install any needed packages
 RUN npm install --legacy-peer-deps
+
+RUN npm run build --prod
+
+ COPY /dist/crudtuto-Front /app/crudtuto-Front 
 
 # Make port 4200 available to the world outside this container
 EXPOSE 4200
