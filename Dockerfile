@@ -48,7 +48,7 @@ WORKDIR /app
 COPY . /app
 
 # Install any needed packages
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Make port 4200 available to the world outside this container
 EXPOSE 4200

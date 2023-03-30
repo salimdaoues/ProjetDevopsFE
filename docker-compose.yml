@@ -5,5 +5,5 @@ services:
     ports:
       - "4200:4200"
     environment:
-      BACKEND_URL: http://tp-achat-app:8089/api
+      BACKEND_URL: http://172.20.10.6:8089/SpringMVC
     command: npm start
