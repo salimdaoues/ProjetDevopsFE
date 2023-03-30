@@ -1,68 +1,29 @@
-# # FROM node:14
-# # WORKDIR /app
-# # COPY package*.json ./
-# # RUN npm install --legacy-peer-deps
-# # COPY . .
-# # RUN npm run build
-
-# # FROM nginx:alpine
-# # COPY /dist/crudtuto-Front /usr/share/nginx/html
-
-# # Utiliser l'image de base Node.js
-# FROM node:14
-
-# # Définir le répertoire de travail
-# WORKDIR /app
-
-# # Copier les fichiers nécessaires
-# COPY package*.json ./
-# COPY angular.json ./
-# COPY tsconfig*.json ./
-# COPY src/ ./src/
-
-# # Installer les dépendances
-# RUN npm install
-
-# # Construire l'application
-# RUN npm run build --prod
-
-# # Créer une nouvelle image à partir de l'image nginx
-# FROM nginx:alpine
-
-# # Copier les fichiers de l'application dans le répertoire de travail de nginx
-# COPY /dist/crudtuto-Front /usr/share/nginx/html/
-
-# # Exposer le port 4200 pour pouvoir accéder à l'application depuis l'extérieur
-# EXPOSE 4200
-
-# # Démarrer nginx pour servir l'application
-# CMD ["nginx", "-g", "daemon off;"]
-
 # Use an official Node.js runtime as a parent image
-FROM node:14
+FROM node:14 AS builder
 
 # Set the working directory to /app
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
+# Copy the necessary files
 COPY package*.json ./
 COPY angular.json ./
 COPY tsconfig*.json ./
 COPY src/ ./src/
 
-# Install any needed packages
-RUN npm install --legacy-peer-deps
+# Install dependencies
+RUN npm install
 
+# Build the application
 RUN npm run build --prod
 
- COPY /dist/crudtuto-Front /app/crudtuto-Front 
+# Create a new image using nginx as the base image
+FROM nginx:alpine
 
-# Make port 4200 available to the world outside this container
-EXPOSE 4200
+# Copy the files from the builder stage to the nginx directory
+COPY --from=builder /app/dist/crudtuto-Front /usr/share/nginx/html
 
-# Define environment variable
-# ENV BACKEND_URL=http://tp-achat-app:8089/api
-ENV BACKEND_URL=http://172.20.10.6:8089/SpringMVC
+# Expose port 80 for external access
+EXPOSE 80
 
-# Run the command to start the app
-CMD ["npm", "start"]
+# Start nginx to serve the application
+CMD ["nginx", "-g", "daemon off;"]
