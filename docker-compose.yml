@@ -1,9 +1,9 @@
 version: '3'
 services:
   tp-achat-frontend:
-    build: .
+    image: daoues/tp-achat-frontend:latest
     ports:
-      - "4200:8089"
+      - "4200:80"
     environment:
       BACKEND_URL: http://172.20.10.6:8089/SpringMVC
     restart: always
