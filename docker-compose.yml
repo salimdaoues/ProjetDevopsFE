@@ -8,4 +8,7 @@ services:
       BACKEND_URL: http://172.20.10.6:8089/SpringMVC
     restart: always
     networks:
-      - networkfrontback
+      - tp-achat-net
+networks:
+  networkfrontback:
+    external: true
