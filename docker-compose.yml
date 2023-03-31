@@ -1,7 +1,7 @@
 version: '3'
 services:
   tp-achat-frontend:
-    image: daoues/tp-achat-frontend:latest
+    build: .
     ports:
       - "4200:8089"
     environment:
